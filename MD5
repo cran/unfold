@@ -1,0 +1,11 @@
+3926072d555e27f5b95fee0cac69dc9f *DESCRIPTION
+3744da66af2d3e0386d54572ca7a6829 *NAMESPACE
+03efb48647fcfe63d9775c6b2305715d *NEWS.md
+26ee1d679b56e6097ae87ce03ba2a237 *R/data.R
+4ad1d24dd5a389cec8ccf3f89a18c710 *R/main.R
+36749e59d8c8a445cf15e54c58b3713b *R/unfold.R
+6ca083990bcce11062effb0e373b80bc *data/dummy_set.rda
+29e0c03f29b6e3497b534c28ae3eb4ab *man/dummy_set.Rd
+844d93c07e4244f12db5f320ad5f8db4 *man/unfold.Rd
+95cfd0dc7506bbe42f6b5391f28eb10e *tests/testthat.R
+d591f46470e15576c79809d7b4779161 *tests/testthat/test-main.R
