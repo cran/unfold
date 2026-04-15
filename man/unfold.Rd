@@ -2,8 +2,8 @@
 % Please edit documentation in R/main.R, R/unfold.R
 \docType{package}
 \name{unfold}
-\alias{unfold}
 \alias{unfold-package}
+\alias{unfold}
 \title{unfold: Mapping Hidden Geometry into Future Sequences}
 \usage{
 unfold(
@@ -87,40 +87,32 @@ A named list with the following components:
 A variational mapping approach that reveals and expands future temporal dynamics from folded high-dimensional geometric distance spaces, unfold turns a set of time series into a 4D block of pairwise distances between reframed windows, learns a variational mapper that maps those distances to the next reframed window, and produces horizon-wise predictive functions for each input series. In short: it unfolds the future path of each series from a folded geometric distance representation.
 }
 \examples{
-\donttest{
-if (requireNamespace("torch", quietly = TRUE)) {
-  set.seed(42)
-
-  # --- Create a small synthetic dataset with 3 series ---
-  T <- 100
-  ts_set <- data.frame(
-    A = cumsum(rnorm(T, mean = 0.02, sd = 0.1)) + 10,
-    B = cumsum(rnorm(T, mean = 0.01, sd = 0.08)) +  8,
-    C = cumsum(rnorm(T, mean = 0.00, sd = 0.12)) + 12
-  )
-
-  # --- Fit the model ---
-  fit <- unfold(
-    ts_set    = ts_set,
-    horizon   = 3,
-    metric    = "euclidean",
-    latent_dim  = 16,
-    enc_hidden  = c(64, 32),
-    dec_hidden  = c(32, 64),
-    epochs      = 5,
-    batch_size  = 16,
-    verbose     = FALSE
-  )
-
-  # --- Inspect predictive functions ---
-  names(fit$pred_funs)         # series names
-  names(fit$pred_funs$A)       # "t1" "t2" "t3"
-
-  # Example: call predictive function for series A, horizon t1
-  f_t1 <- fit$pred_funs$A$t1$rfun
-  # Example: draw 500 simulated values
-  # sims <- f_t1(500)
+.has_working_torch <- function() {
+  if (!requireNamespace("torch", quietly = TRUE)) return(FALSE)
+  tryCatch({
+    torch::torch_tensor(1)$item()
+    TRUE
+  }, error = function(e) FALSE)
 }
+
+if (.has_working_torch()) {
+  set.seed(42)
+  TT <- 100
+  ts_set <- data.frame(
+    A = cumsum(rnorm(TT, 0.02, 0.10)) + 10,
+    B = cumsum(rnorm(TT, 0.01, 0.08)) +  8,
+    C = cumsum(rnorm(TT, 0.00, 0.12)) + 12
+  )
+
+  fit <- unfold(
+    ts_set = ts_set,
+    horizon = 3,
+    epochs = 5,
+    batch_size = 16,
+    verbose = FALSE
+  )
+
+  names(fit$pred_funs)
 }
 
 }
